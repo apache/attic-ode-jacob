@@ -69,11 +69,11 @@ public class ContinuationDeserializer extends StdDeserializer<Continuation> {
         }
         
         if (target == null) {
-            throw ctxt.mappingException(Continuation.class);
+            ctxt.handleUnexpectedToken(Continuation.class, jp);
         }
         
         if (methodName == null) {
-            throw ctxt.mappingException(Continuation.class);
+            ctxt.handleUnexpectedToken(Continuation.class, jp);
         }
         
         return new Continuation(target, target.getMethod(methodName), args);

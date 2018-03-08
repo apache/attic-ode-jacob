@@ -36,6 +36,7 @@ import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.JsonToken;
+import com.fasterxml.jackson.core.type.WritableTypeId;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
@@ -59,6 +60,8 @@ public class JacksonExecutionQueueImpl extends ExecutionQueueImpl {
 	
     public static class ExecutionQueueImplSerializer extends StdSerializer<JacksonExecutionQueueImpl> {
 
+        private static final long serialVersionUID = -3984361231954521934L;
+        
         private ChannelProxySerializer channelProxySerializer;
 
         public ExecutionQueueImplSerializer(ChannelProxySerializer cps) {
@@ -80,9 +83,10 @@ public class JacksonExecutionQueueImpl extends ExecutionQueueImpl {
         public void serializeWithType(JacksonExecutionQueueImpl value, JsonGenerator jgen,
                 SerializerProvider provider, TypeSerializer typeSer)
                 throws IOException, JsonProcessingException {
-            typeSer.writeTypePrefixForObject(value, jgen);
+            WritableTypeId typeId = typeSer.typeId(value, JsonToken.START_OBJECT);
+            typeSer.writeTypePrefix(jgen, typeId);
             serializeContents(value, jgen, provider);
-            typeSer.writeTypeSuffixForObject(value, jgen);
+            typeSer.writeTypeSuffix(jgen, typeId);
         }
         
         private void serializeContents(JacksonExecutionQueueImpl value, JsonGenerator jgen,

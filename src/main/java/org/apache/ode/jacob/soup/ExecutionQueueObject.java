@@ -26,7 +26,7 @@ package org.apache.ode.jacob.soup;
 public class ExecutionQueueObject {
 
     /**
-     * A unique idefntifer for this object in the queue (should only be set by queue).
+     * A unique identifier for this object in the queue (should only be set by queue).
      */
     private Object _id;
 
