@@ -25,6 +25,8 @@ import org.apache.ode.jacob.soup.Continuation;
 import com.fasterxml.jackson.core.JsonGenerationException;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.JsonToken;
+import com.fasterxml.jackson.core.type.WritableTypeId;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.jsontype.TypeSerializer;
 import com.fasterxml.jackson.databind.ser.std.StdSerializer;
@@ -36,6 +38,8 @@ import com.fasterxml.jackson.databind.ser.std.StdSerializer;
  *
  */
 public class ContinuationSerializer extends StdSerializer<Continuation> {
+
+    private static final long serialVersionUID = 850057543258259908L;
 
     public ContinuationSerializer() {
         super(Continuation.class);
@@ -55,9 +59,10 @@ public class ContinuationSerializer extends StdSerializer<Continuation> {
     public void serializeWithType(Continuation value, JsonGenerator jgen,
             SerializerProvider provider, TypeSerializer typeSer)
             throws IOException, JsonProcessingException {
-        typeSer.writeTypePrefixForObject(value, jgen);
+        WritableTypeId typeId = typeSer.typeId(value, JsonToken.START_OBJECT);
+        typeSer.writeTypePrefix(jgen, typeId);
         serializeContents(value, jgen, provider);
-        typeSer.writeTypeSuffixForObject(value, jgen);
+        typeSer.writeTypeSuffix(jgen, typeId);
     }
     
     private void serializeContents(Continuation value, JsonGenerator jgen,

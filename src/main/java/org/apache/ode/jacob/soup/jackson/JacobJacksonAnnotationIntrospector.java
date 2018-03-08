@@ -19,9 +19,11 @@
 package org.apache.ode.jacob.soup.jackson;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect.Visibility;
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
-import com.fasterxml.jackson.annotation.PropertyAccessor;
+import com.fasterxml.jackson.annotation.SimpleObjectIdResolver;
 import com.fasterxml.jackson.databind.JavaType;
+import com.fasterxml.jackson.databind.PropertyName;
 import com.fasterxml.jackson.databind.cfg.MapperConfig;
 import com.fasterxml.jackson.databind.introspect.Annotated;
 import com.fasterxml.jackson.databind.introspect.AnnotatedClass;
@@ -46,7 +48,7 @@ public class JacobJacksonAnnotationIntrospector extends
     /* enable object ids for all objects. */
     @Override
     public ObjectIdInfo findObjectIdInfo(Annotated ann) {
-        return new ObjectIdInfo("@id", Object.class, ObjectIdGenerators.IntSequenceGenerator.class);
+        return new ObjectIdInfo(PropertyName.construct("@id"), Object.class, ObjectIdGenerators.IntSequenceGenerator.class, SimpleObjectIdResolver.class);
     }
 
     /* use custom type resolver */
@@ -61,7 +63,8 @@ public class JacobJacksonAnnotationIntrospector extends
     @Override
     public VisibilityChecker<?> findAutoDetectVisibility(AnnotatedClass ac,
             VisibilityChecker<?> checker) {
-        return VisibilityChecker.Std.defaultInstance().with(Visibility.NONE).withVisibility(PropertyAccessor.FIELD, Visibility.ANY);
+        // return VisibilityChecker.Std.defaultInstance().withCreatorVisibility(Visibility.NONE).withFieldVisibility(Visibility.ANY);
+        return checker.withOverrides(JsonAutoDetect.Value.construct(Visibility.ANY, Visibility.NONE, Visibility.NONE, Visibility.NONE, Visibility.NONE));
     }
     
 }

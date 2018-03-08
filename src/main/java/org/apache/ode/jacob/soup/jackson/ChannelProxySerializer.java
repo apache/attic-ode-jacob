@@ -29,6 +29,8 @@ import org.apache.ode.jacob.vpu.ChannelFactory;
 
 import com.fasterxml.jackson.core.JsonGenerationException;
 import com.fasterxml.jackson.core.JsonGenerator;
+import com.fasterxml.jackson.core.JsonToken;
+import com.fasterxml.jackson.core.type.WritableTypeId;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.jsontype.TypeSerializer;
 import com.fasterxml.jackson.databind.jsontype.impl.ClassNameIdResolver;
@@ -44,6 +46,8 @@ import com.fasterxml.jackson.databind.ser.std.StdSerializer;
  *
  */
 public class ChannelProxySerializer extends StdSerializer<ChannelProxy>{
+
+    private static final long serialVersionUID = -3021202839880017806L;
 
     private final Set<Integer> serializedChannels = new LinkedHashSet<Integer>();
     
@@ -65,9 +69,10 @@ public class ChannelProxySerializer extends StdSerializer<ChannelProxy>{
             TypeSerializer typeSer)
         throws IOException, JsonGenerationException
     {
-        typeSer.writeTypePrefixForObject(value, jgen);
+        WritableTypeId typeId = typeSer.typeId(value, JsonToken.START_OBJECT);
+        typeSer.writeTypePrefix(jgen, typeId);
         serializeContents(value, jgen, provider);
-        typeSer.writeTypeSuffixForObject(value, jgen);
+        typeSer.writeTypeSuffix(jgen, typeId);
     }
 
     private void serializeContents(ChannelProxy value, JsonGenerator jgen,

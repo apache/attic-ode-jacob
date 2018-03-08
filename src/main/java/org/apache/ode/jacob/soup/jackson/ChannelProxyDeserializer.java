@@ -65,11 +65,11 @@ public class ChannelProxyDeserializer extends StdDeserializer<Channel> {
         }
         
         if (type == null) {
-            throw ctxt.mappingException(Channel.class);
+            ctxt.handleUnexpectedToken(Channel.class, jp);
         }
         
         if (id < 0) {
-            throw ctxt.mappingException(Channel.class);
+            ctxt.handleUnexpectedToken(Channel.class, jp);
         }
 
         

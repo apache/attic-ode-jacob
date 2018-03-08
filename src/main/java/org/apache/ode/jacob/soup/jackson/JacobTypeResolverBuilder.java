@@ -18,6 +18,7 @@
  */
 package org.apache.ode.jacob.soup.jackson;
 
+import java.io.IOException;
 import java.util.Collection;
 
 import org.apache.ode.jacob.Channel;
@@ -28,6 +29,7 @@ import org.apache.ode.jacob.vpu.ChannelFactory;
 
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeInfo.Id;
+import com.fasterxml.jackson.databind.DatabindContext;
 import com.fasterxml.jackson.databind.DeserializationConfig;
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.SerializationConfig;
@@ -121,8 +123,8 @@ public class JacobTypeResolverBuilder extends StdTypeResolverBuilder {
             return delegate.idFromValueAndType(value, suggestedType);
         }
 
-        public JavaType typeFromId(String id) {
-            return delegate.typeFromId(id);
+        public JavaType typeFromId(DatabindContext context, String id) throws IOException {
+            return delegate.typeFromId(context, id);
         }
 
         public Id getMechanism() {

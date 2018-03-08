@@ -51,12 +51,11 @@
   </licenses>
 
   <properties>
-    <slf4j.version>1.7.2</slf4j.version>
+    <slf4j.version>1.7.25</slf4j.version>
     <junit.version>4.11</junit.version>
-    <jackson.version>2.2.0-rc1</jackson.version>
+    <jackson.version>2.9.4</jackson.version>
 
-    <jdk.version>1.6</jdk.version>
-    <compiler.fork>1.6</compiler.fork>
+    <jdk.version>1.8</jdk.version>
   </properties>
 
   <dependencyManagement>
@@ -126,7 +125,6 @@
             <source>${jdk.version}</source>
             <target>${jdk.version}</target>
             <maxmem>512M</maxmem>
-            <fork>${compiler.fork}</fork>
           </configuration>
         </plugin>
       </plugins>
